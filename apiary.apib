@@ -1,0 +1,301 @@
+FORMAT: 1A
+HOST: https://api.sensifai.com/
+
+# Sensifai API
+
+Sensifai API allows developer to train and predict their video and image.
+
+## Upload Image By Url [/v1/upload_image_url]
+
+### Upload Image [POST]
+
+Upload Image By Url requires `image_url` and returns `media_id`.
+
++ Request (application/json)
+
+        {
+            "image_url": "http://demo.sensifa.com/files/test.jpg"
+        }
+
++ Response 201 (application/json)
+
+
+    + Body
+
+            {
+                "media_id": "0de9e67a-2339-46f3-aeec-260c99511f32",
+                "media_type": "image"
+            }
+        
++ Response 200 (application/json)
+
+
+    + Body
+
+            {
+                "error": "could not download image"
+            }
+
+
+## Upload Image By File [/v1/upload_image]
+
+### Upload Image [POST]
+
+Upload Image By Url requires `image_url` and returns `media_id`.
+
++ Request (multipart/form-data; boundary=---BOUNDARY)
+
+        -----BOUNDARY
+        Content-Disposition: form-data; name="image[file]"; filename="image.jpg"
+        Content-Type: image/jpeg
+        Content-Transfer-Encoding: base64
+
+        /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
+        HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
+        MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIA
+        AhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAf/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEB
+        AAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AL+AD//Z
+        -----BOUNDARY
+
++ Response 201 (application/json)
+
+
+    + Body
+
+            {
+                "media_id": "0de9e67a-2339-46f3-aeec-260c99511f32",
+                "media_type": "image"
+            }
+        
++ Response 200 (application/json)
+
+
+    + Body
+
+            {
+                "error": "could not download image"
+            }
+
+
+## Upload Video By Url [/v1/upload_video_url]
+
+### Upload Video [POST]
+
+Upload Video By Url requires `video_url` and returns `media_id`.
+
++ Request (application/json)
+
+        {
+            "image_url": "http://demo.sensifa.com/files/test.jpg"
+        }
+
++ Response 201 (application/json)
+
+
+    + Body
+
+            {
+                "media_id": "0de9e67a-2339-46f3-aeec-260c99511f32",
+                "media_type": "image"
+            }
+        
++ Response 200 (application/json)
+
+
+    + Body
+
+            {
+                "error": "could not download image"
+            }
+
+
+## Upload Video By File [/v1/upload_video]
+
+### Upload Video [POST]
+
+Upload Video By File requires `video_url` and returns `media_id`.
+
++ Request (application/json)
+
+        {
+            "video_url": "http://demo.sensifa.com/files/test.jpg"
+        }
+
++ Response 201 (application/json)
+
+
+    + Body
+
+            {
+                "media_id": "0de9e67a-2339-46f3-aeec-260c99511f32",
+                "media_type": "video"
+            }
+        
++ Response 200 (application/json)
+
+
+    + Body
+
+            {
+                "error": "could not download image"
+            }
+
+## Annotate Image model [/v1/annotate/image]
+
+### Annotate Image [POST]
+
+annotate image requires `media_id` and `models`
+
++ Request (application/json)
+
+        {
+            "media_id": "7c6a4488-21c3-43b2-bbdf-0ab47efe65c4",
+            "models": ["tagging", "nsfw"]
+        }
+        
++ Response 200
+
+    + Body
+    
+            {
+                "nsfw": {
+                    "adult": "completely safe",
+                    "violence": "completely safe"
+                },
+                "tagging": [
+                    [
+                        "Mountain",
+                        91.35621190071106
+                    ],
+                    [
+                        "Wilderness",
+                        86.09621524810791
+                    ],
+                    [
+                        "Mountain range",
+                        82.7315092086792
+                    ],
+                    [                                                                                                                                                   [0/466]
+                        "Valley",
+                        72.27247953414917
+                    ],
+                    [
+                        "Ridge",
+                        67.32603311538696
+                    ],
+                    [
+                        "Plateau",
+                        59.50472354888916
+                    ],
+                    [
+                        "Flower",
+                        57.14523196220398
+                    ],
+                    [
+                        "Nature",
+                        53.341853618621826
+                    ],
+                    [
+                        "Meadow",
+                        47.26642668247223
+                    ],
+                    [
+                        "Landscape",
+                        46.85877859592438
+                    ]
+                ]
+            }
+
+
+
+## Annotate Video model [/v1/annotate/video]
+
+### Annotate Video [POST]
+
+annotate video requires `media_id` and `models`
+
++ Request (application/json)
+
+        {
+            "media_id": "3dd16acf-b4b4-49b7-b66e-8178aeab709a",
+            "models": ["action", "face", "nsfw", "tagging"]
+        }
+        
++ Response 202
+
+    + Body
+    
+            {
+                "location": "v1/get_video_result/3dd16acf-b4b4-49b7-b66e-8178aeab709a",
+                "task_id": "3dd16acf-b4b4-49b7-b66e-8178aeab709a"
+            }
+
+## Get Video Result [/v1/get_video_result/{media_id}]
+
++ Parameters
+  + media_id (required, uuid, `3dd16acf-b4b4-49b7-b66e-8178aeab709a`) ... Media ID
+
+### Get Video Result [GET]
+
+get video result
+
++ Request (application/json)
+
+
++ Response 102
+
++ Response 200
+
+    + Body
+    
+            {                                                                                                                                                     [61/1082]
+                "Errors": [],
+                "duration": 28.928900000000002,
+                "fps": 29.97002997002997,
+                "num_frames": 867,
+                "shots": [
+                    {
+                        "Actions": [],
+                        "Celebrities": [],
+                        "NSFW": [
+                            {
+                                "NSFW": "completely safe",
+                                "score": 0.01219090909090909
+                            }
+                        ],
+                        "endFrame": 261,
+                        "endSecond": 8.7087,
+                        "startFrame": 0,
+                        "startSecond": 0.0
+                    },
+                    {                                                                                                                                             [22/1082]
+                        "Actions": [
+                            {
+                                "action": "communication",
+                                "score": 0.6548615942398707
+                            },
+                            {
+                                "action": "fighting",
+                                "score": 0.5728033185005188
+                            }
+                        ],
+                        "Celebrities": [
+                            {
+                                "frequencies": 3,
+                                "names": "Hillary Rodham Clinton"
+                            }
+                        ],
+                        "NSFW": [
+                            {
+                                "NSFW": "completely safe",
+                                "score": 0.008419047619047618
+                            }
+                        ],
+                        "endFrame": 867,
+                        "endSecond": 28.928900000000002,
+                        "startFrame": 319,
+                        "startSecond": 10.643966666666667
+                    }
+                ],
+                "video_name": "3dd16acf-b4b4-49b7-b66e-8178aeab709a.mp4"
+            }
